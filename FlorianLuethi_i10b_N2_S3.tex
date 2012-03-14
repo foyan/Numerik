@@ -1,0 +1,387 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[11pt]{article} % use larger type; default would be 10pt
+
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+% \geometry{margins=2in} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+
+\usepackage{graphicx} % support the \includegraphics command and options
+
+% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+\usepackage{amsmath}
+\usepackage{amssymb}
+% These packages are all incorporated in the memoir class to one degree or another...
+
+%%% HEADERS & FOOTERS
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\pagestyle{fancy} % options: empty , plain , fancy
+\renewcommand{\headrulewidth}{0pt} % customise the layout...
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+% (This matches ConTeXt defaults)
+
+%%% ToC (table of contents) APPEARANCE
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+
+\newcommand{\e}{\mathrm{e}}
+
+%%% END Article customizations
+
+%%% The "real" document content comes below...
+
+\title{Numerik 2 - Übung 3}
+\author{Florian Lüthi, i10b}
+%\date{} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed 
+
+\begin{document}
+\maketitle
+
+\section*{Aufgabe 1}
+
+\begin{enumerate}[a)]
+
+\item
+\begin{eqnarray*}
+A &=& \begin{pmatrix} 6 & -3 & -2 \\ 8 & 1 & -1 \\ 0 & -4 & -2 \end{pmatrix}
+\end{eqnarray*}
+
+Erste Spalte:
+\begin{eqnarray*}
+a &=& \begin{pmatrix} 6 \\ 8 \\ 0 \end{pmatrix}, ||a||_2 = \sqrt{6^2 + 8^2 + 0^2}  = \sqrt{100} =  10 \\
+\Rightarrow  v &=& a + ||a||_2e_1 = \begin{pmatrix} 6 \\ 8 \\ 0 \end{pmatrix} +  \begin{pmatrix}  10 \\ 0 \\ 0 \end{pmatrix} = \begin{pmatrix} 16 \\ 8 \\ 0 \end{pmatrix} \\
+\Rightarrow Q_va &=& -||a||_2e_1 =\begin{pmatrix}  -10 \\ 0 \\ 0 \end{pmatrix}, ||v||_2 = \sqrt{16^2 + 8^2 + 0^2} = \sqrt{320} \\
+\end{eqnarray*}
+Erste Spalte, Umformung der zweiten Spalte:
+\begin{eqnarray*}
+x_1 &=& \begin{pmatrix} -3 \\ 1\\ -4 \end{pmatrix} \\
+\Rightarrow Q_vx_1 &=& x_1 - \frac 2 {||v||_2^2}(v^Tx_1)v \\
+&=& \begin{pmatrix} -3 \\ 1\\ -4 \end{pmatrix} - \frac 2 {320} (16 \cdot (-3) + 8\cdot 1 + 0 \cdot (-4)) \begin{pmatrix} 16 \\ 8 \\ 0 \end{pmatrix} \\
+&=&  \begin{pmatrix} -3 \\ 1\\ -4 \end{pmatrix} - (-0.25) \begin{pmatrix} 16 \\ 8 \\ 0 \end{pmatrix} = \begin{pmatrix} -3 \\ 1\\ -4 \end{pmatrix} - \begin{pmatrix} -4 \\ -2 \\ 0 \end{pmatrix} = \begin{pmatrix}  1 \\ 3 \\ -4 \end{pmatrix} \\
+\end{eqnarray*}
+Erste Spalte, Umformung der dritten Spalte:
+\begin{eqnarray*}
+x_2 &=& \begin{pmatrix} -2 \\ -1 \\ -2\end{pmatrix} \\
+\Rightarrow Q_vx_2 &=& x_2 - \frac 2 {||v||_2^2}(v^Tx_2)v \\
+&=& \begin{pmatrix} -2 \\ -1 \\ -2 \end{pmatrix} - \frac 2 {320}  (16 \cdot (-2) + 8\cdot (-1) + 0 \cdot (-2)) \begin{pmatrix} 16 \\ 8 \\ 0 \end{pmatrix} \\
+&=& \begin{pmatrix} -2 \\ -1 \\ -2 \end{pmatrix} - (-0.25) \begin{pmatrix} 16 \\ 8 \\ 0 \end{pmatrix}
+= \begin{pmatrix} -2 \\ -1 \\ -2 \end{pmatrix} - \begin{pmatrix} -4 \\ -2 \\ 0 \end{pmatrix}
+= \begin{pmatrix}  2 \\ 1 \\ -2 \end{pmatrix}
+\end{eqnarray*}
+Daraus folgt:
+\begin{eqnarray*}
+Q_1A = \begin{pmatrix} -10 & 1 & 2\\ 0 & 3 & 1 \\ 0 & -4 &  -2 \end{pmatrix}
+\end{eqnarray*}
+
+Zweite Spalte:
+\begin{eqnarray*}
+a &=& \begin{pmatrix}3 \\ -4\end{pmatrix}, ||a||_2 = \sqrt{3^2 + (-4)^2} = \sqrt{25} = 5 \\
+\Rightarrow v &=& a + ||a||_2e_1 = \begin{pmatrix}3 \\ -4 \end{pmatrix} + \begin{pmatrix} 5 \\ 0 \end{pmatrix} = \begin{pmatrix}  8 \\ -4 \end{pmatrix} \\
+\Rightarrow Q_va &=& -||a||_2e_1 = \begin{pmatrix} -5 \\ 0 \end{pmatrix}, ||v||_2 = \sqrt{8^2 + (-4)^2} = \sqrt{80}
+\end{eqnarray*}
+Zweite Spalte, Umformung der dritten Spalte:
+\begin{eqnarray*}
+x &=& \begin{pmatrix} 1 \\ -2 \end{pmatrix} \\
+\Rightarrow Q_vx &=& x - \frac 2 {||v||_2^2}(v^Tx)v \\
+&=& \begin{pmatrix} 1 \\ -2 \end{pmatrix} - \frac 2 {80}(8\cdot 1 +  (-4)\cdot (-2))\begin{pmatrix}  8 \\ -4 \end{pmatrix} \\
+&=& \begin{pmatrix} 1 \\ -2 \end{pmatrix} - 0.4 \begin{pmatrix}  8 \\ -4 \end{pmatrix}
+= \begin{pmatrix} 1 \\ -2 \end{pmatrix}  -  \begin{pmatrix} 3.2 \\ -1.6 \end{pmatrix} = \begin{pmatrix} -2.2 \\ -0.4 \end{pmatrix} 
+\end{eqnarray*}
+Daraus folgt:
+\begin{eqnarray*}
+Q_2Q_1A = R = \begin{pmatrix}  -10 & 1 & 2 \\ 0 & -5 & -2.2 \\ 0 & 0 &  -0.4 \end{pmatrix} 
+\end{eqnarray*}
+
+\item
+\begin{eqnarray*}
+b &=& \begin{pmatrix} 1 \\ 3 \\ 1 \end{pmatrix} \\
+\Rightarrow Q_1b &=& b - \frac 2 {||v||_2^2}(v^Tb)v = \begin{pmatrix} 1 \\ 3 \\ 1 \end{pmatrix} - \frac 2 {320}(16\cdot 1 +8 \cdot 3 + 0\cdot 1)\begin{pmatrix}16 \\ 8 \\ 0 \end{pmatrix} \\
+&=&  \begin{pmatrix} 1 \\ 3 \\ 1 \end{pmatrix} - 0.25\begin{pmatrix}16 \\ 8 \\ 0 \end{pmatrix} = \begin{pmatrix} -3 \\ 1 \\ 1 \end{pmatrix} \\
+\Rightarrow Q_2Q_1b &=& Q_2  \begin{pmatrix} -3 \\ 1 \\ 1 \end{pmatrix} = \begin{pmatrix} -3 \\\hline
+\begin{pmatrix}1 \\ 1 \end{pmatrix} - \frac 2 {80} (8\cdot 1 + (-4)\cdot 1)\begin{pmatrix}8 \\ -4\end{pmatrix}
+\end{pmatrix} \\
+&=& \begin{pmatrix} -3 \\\hline
+\begin{pmatrix}1 \\ 1 \end{pmatrix} -0.1\begin{pmatrix}8 \\ -4\end{pmatrix}
+\end{pmatrix} = \begin{pmatrix} -3 \\ 0.2 \\ 0.6 \end{pmatrix} \\
+\Rightarrow   \begin{pmatrix}  -10 & 1 & 2 \\ 0 & -5 & -2.2 \\ 0 & 0 &  -0.4 \end{pmatrix} \begin{pmatrix} x_1 \\ x_2 \\ x_3 \end{pmatrix} &=& \begin{pmatrix} -3 \\ 0.2 \\ 1.4 \end{pmatrix} \\
+\Rightarrow -0.4x_3 &=& 1.4 \Rightarrow x_3 = -3.5 \\
+\Rightarrow -5x_2 -2.2x_3 &=& 0.2 \Rightarrow -5x_2 = 0.2 - 7.7 = -7.5 \Rightarrow x_2 = 1.5 \\
+\Rightarrow -10x_1 + x_2 + 2x_3 &=& -3 \Rightarrow -10x_1 + 1.5 -7 = -3 \Rightarrow x_1 = -0.25 \\
+\Rightarrow x &=& \begin{pmatrix} -0.25 \\ 1.5 \\ -3.5 \end{pmatrix}
+\end{eqnarray*}
+
+\end{enumerate}
+
+\section*{Aufgabe 2}
+
+\begin{enumerate}[a)]
+
+\item Nun denn:
+
+\includegraphics{N2_S3_Aufg2a.png}
+
+\item Für den Ansatz $v = \alpha + \beta u^2$:
+
+\begin{eqnarray*}
+A &=& \begin{pmatrix}
+	0^0 & 0^2 \\
+	1^0 & 1^2 \\
+	2^0 & 2^2 \\
+	3^0 & 3^2 \\
+	4^0 & 4^2 \\
+	5^0 & 5^2 \\
+	6^0 & 6^2 \\
+	7^0 & 7^2 \\
+	8^0 & 8^2 \\
+	9^0 & 9^2 \\
+\end{pmatrix} = \begin{pmatrix}
+	1 & 0 \\
+	1 & 1 \\
+	1 & 4 \\
+	1 & 9 \\
+	1 & 16 \\
+	1 & 25 \\
+	1 & 36 \\
+	1 & 49 \\
+	1 & 64 \\
+	1 & 81 \\
+\end{pmatrix}
+\Rightarrow R = \begin{pmatrix} -3.1623 &  -90.1249  \\  0 &  84.9147  \\ 0 &0 \\ 0 &0 \\0 &0 \\0 &0 \\0 &0 \\0 &0 \\0 &0 \\0 &0 \end{pmatrix}, \\ Q &=& \begin{pmatrix}
+-0.3162 &  -0.3162 &   -0.3162 &  -0.3162 &  -0.3162 &  -0.3162 &  -0.3162 & \cdots \\
+-0.3356   &-0.3239  & -0.2885  & -0.2296  & -0.1472  & -0.0412  &  0.0883  &  \cdots \\
+ -0.3195   &-0.2846  &  0.8885 &  -0.1017 &  -0.0879 &  -0.0702 &  -0.0485  &  \cdots \\
+  -0.3186   &-0.2255  & -0.1014  &  0.9056 &  -0.0845 &  -0.0718  & -0.0563 &   \cdots \\
+ -0.3173  & -0.1428  & -0.0874  & -0.0842  &  0.9202  & -0.0741  & -0.0672  &  \cdots \\
+   -0.3156  & -0.0364 &  -0.0692 &  -0.0711 &  -0.0737  &  0.9229  & -0.0812 &  \cdots \\
+   -0.3136  &  0.0936  & -0.0471  & -0.0551  & -0.0663  & -0.0807  &  0.9017  &  \cdots \\
+   -0.3112   & 0.2473  & -0.0209  & -0.0362  & -0.0575  & -0.0850  & -0.1185  &  \cdots \\
+   -0.3084   & 0.4246   & 0.0093  & -0.0143  & -0.0474  & -0.0899 &  -0.1419  & \cdots \\
+   -0.3053   & 0.6256   & 0.0435  &  0.0104  & -0.0359  & -0.0955 &  -0.1683  &  \cdots \\
+\end{pmatrix} \\
+b &=& \begin{pmatrix} -200 \\ -100 \\ -50 \\ 0 \\ 150 \\ 400 \\ 600 \\ 1000 \\ 1700 \\3000 \end{pmatrix}
+ \Rightarrow Qb = \begin{pmatrix} -2055.4805 \\
+2935.2999\\
+86.3155\\
+-28.5595\\
+-109.3843\\
+-156.1592\\
+-318.8840\\
+-347.5587\\
+-142.1835\\
+597.2419\\
+\end{pmatrix} \\
+Rx &=& Qb \Rightarrow x = \begin{pmatrix} \alpha \\ \beta \end{pmatrix} =\begin{pmatrix} -335.1779 \\  34.5676 \end{pmatrix}
+\end{eqnarray*}
+
+Für den Ansatz $v = \alpha + \beta \e^u$:
+
+\begin{eqnarray*}
+A &=& \begin{pmatrix}
+	0^0 & \e^0 \\
+	1^0 & \e^1 \\
+	2^0 & \e^2 \\
+	3^0 & \e^3 \\
+	4^0 & \e^4 \\
+	5^0 & \e^5 \\
+	6^0 & \e^6 \\
+	7^0 & \e^7 \\
+	8^0 & \e^8 \\
+	9^0 & \e^9 \\
+\end{pmatrix} = \begin{pmatrix}
+1 &1 \\
+1 &2.7183 \\
+1 &7.389 \\
+1 &20.0855 \\
+1 &54.5982 \\
+1 &148.4132 \\
+1 &403.4288 \\
+1 &1096.6332 \\
+1 &2980.9580 \\
+1 &8103.0839 \\
+\end{pmatrix} \Rightarrow R = \begin{pmatrix}
+-3.1623	& -4053.5049 \\
+0	& 7714.0139 \\
+0	& 0 \\
+0	& 0 \\
+0	& 0 \\
+0	& 0 \\
+0	& 0 \\
+0	& 0 \\
+0	& 0 \\
+0	& 0 \\
+\end{pmatrix}, \\
+Q &=& \begin{pmatrix}
+   -0.3162 &  -0.3162 &   -0.3162 &   -0.3162 &   -0.3162 &   -0.3162 &   -0.3162 &\cdots \\
+   -0.1660 &   -0.1658 &   -0.1652 &   -0.1636 &   -0.1591 &   -0.1469 &   -0.1139 &\cdots \\
+   -0.2995 &   -0.1973 &    0.9141 &   -0.0857 &   -0.0852 &   -0.0839 &   -0.0802 &\cdots \\
+   -0.2997 &   -0.1957 &   -0.0858 &    0.9144 &   -0.0851 &   -0.0838 &   -0.0801 &\cdots \\
+   -0.3003 &   -0.1914 &   -0.0854 &   -0.0852 &    0.9152 &   -0.0835 &   -0.0800 &\cdots \\
+   -0.3019 &   -0.1796 &   -0.0845 &   -0.0843 &   -0.0839 &    0.9173 &   -0.0796 &\cdots \\
+   -0.3064 &   -0.1476 &   -0.0818 &   -0.0817 &   -0.0814 &   -0.0806 &    0.9215 &\cdots \\
+   -0.3183 &   -0.0606 &   -0.0747 &   -0.0747 &   -0.0748 &   -0.0750 &   -0.0754 &\cdots \\
+   -0.3509 &    0.1758 &   -0.0554 &   -0.0557 &   -0.0568 &   -0.0596 &   -0.0672 &\cdots \\
+   -0.4395 &    0.8186 &   -0.0027 &   -0.0041 &   -0.0078 &   -0.0177 &   -0.0449 &\cdots \\
+\end{pmatrix} \\
+b &=& \begin{pmatrix} -200 \\ -100 \\ -50 \\ 0 \\ 150 \\ 400 \\ 600 \\ 1000 \\ 1700 \\3000 \end{pmatrix}
+ \Rightarrow Qb = \begin{pmatrix}
+-2488.2546\\
+2594.6425\\
+-238.6459\\
+-193.3886\\
+-56.2807\\
+158.6750\\
+263.4148\\
+404.4707\\
+400.5876\\
+-212.765 \\
+\end{pmatrix} \\
+Rx &=& Qb \Rightarrow x = \begin{pmatrix} \alpha \\ \beta \end{pmatrix} = \begin{pmatrix} 166.3918 \\ 0.3773\end{pmatrix}
+\end{eqnarray*}
+
+\item
+
+Für den Ansatz $v = \alpha + \beta u^2$:
+
+\includegraphics{N2_S3_Aufg2b1.png}
+
+Für den Ansatz $v = \alpha + \beta\e^u$:
+
+\includegraphics{N2_S3_Aufg2b2.png}
+
+\item
+Für den Ansatz $v = \alpha + \beta u^2$:
+\begin{eqnarray*}
+r_{\text quadratisch} &=& \left\lVert\begin{pmatrix}86.3155\\
+-28.5595\\
+-109.3843\\
+-156.1592\\
+-318.8840\\
+-347.5587\\
+-142.1835\\
+597.2419\\ \end{pmatrix}\right\rVert_2 \\ &=&  \sqrt{86.3155^2 + (-28.5595)^2 + \dots + 597.2419^2 } =  802.5053
+\end{eqnarray*}
+
+Für den Ansatz $v = \alpha + \beta\e^u$:
+\begin{eqnarray*}
+r_{\text exponentiell} &=& \left\lVert\begin{pmatrix}-238.6459\\
+-193.3886\\
+-56.2807\\
+158.6750\\
+263.4148\\
+404.4707\\
+400.5876\\
+-212.765 \\ \end{pmatrix}\right\rVert_2 \\ &=&  \sqrt{(-238.6459)^2 + (-193.3886)^2 + \dots + (-212.765)^2 } =  749.2794
+\end{eqnarray*}
+
+Da beim exponentiellen Ansatz das Residuum kleiner ist, bildet dieser  Ansatz die Daten wohl besser ab.
+
+\end{enumerate}
+
+\section*{Aufgabe 3}
+
+Lösung mit Matlab:
+
+\begin{eqnarray*}
+x = A \backslash b = \begin{pmatrix} 1.0150 \\ -0.0067 \end{pmatrix}
+\end{eqnarray*}
+
+Das ist in der Tat interessant, da das Gleichungssystem $Ax = b$ gar keine exakte Lösung besitzt.
+
+Der Matlab Function Browser sagt nun im dritten Abschnitt zur Funktion {\tt mldivide}:
+
+\begin{quote}
+If $A$ is an $m$-by-$n$ matrix with $m \neq n$ and $B$ is a column vector with m components, or a matrix with several such columns, then $X = A\backslash B$ is the solution in the least squares sense to the under- or overdetermined system of equations $AX = B$. In other words, $X$ minimizes $||AX - B||$, the length of the vector  $AX - B$. The rank $k$ of $A$ is determined from the QR decomposition with column pivoting. The computed solution $X$ has at most $k$ nonzero elements per column. If $k < n$, this is usually not the same solution as $x = \operatorname{pinv}(A)B$, which returns a least squares solution.
+\end{quote}
+
+Long story short bedeutet das, dass Matlab für den Fall, dass $A$ nicht quadratisch ist und $b$ gleichviele Zeilen wie $A$ enthält, das lineare Ausgleichsproblem und nicht das Gleichungssystem exakt löst (was gar nicht funktionieren könnte, weil ja entweder zuwenig Information oder zuviel und sich dann widersprechende Information in $A$ und $b$ enthalten ist). Die Quintessenz ist, dass wir uns die letzten drei Übungsserien eigentlich hätten sparen können.
+
+\section*{Aufgabe 4}
+
+\begin{enumerate}[a)]
+
+\item Der gewünschte Plot:
+
+\includegraphics{N2_S3_Aufg4a.png}
+
+\item
+\begin{eqnarray*}
+\frac{u^2}{a^2} + \frac{v^2}{c^2} &=& 1 \\
+\frac{u^2c^2}{a^2c^2} + \frac{v^2a^2}{c^2a^2} &=& 1 \\
+\frac{u^2c^2 + v^2a^2}{a^2c^2} &=& 1 \\
+u^2c^2 + v^2a^2 &=& a^2c^2 \\
+v^2a^2 &=& a^2c^2 - u^2c^2 \\
+v^2 &=& \frac{a^2c^2 - u^2c^2}{a^2} = \frac{a^2c^2}{a^2} - \frac{u^2c^2}{a^2} = c^2 - \frac{c^2}{a^2}u^2
+\end{eqnarray*}
+
+Substitutionen: $\alpha = c^2$, $\beta = \frac{c^2}{a^2} \Rightarrow v^2 = \alpha - \beta u^2$
+\item
+\begin{eqnarray*}
+A &=& \begin{pmatrix}
+	(-4)^0 & -(-4)^2 \\
+	(-3)^0 & -(-3)^2 \\
+	(-2)^0 & -(-2)^2 \\
+	(-1)^0 & -(-1)^2 \\
+	0^0 & 0^2 \\
+	1^0 & -1^2 \\
+	2^0 & -2^2 \\
+	3^0 & -3^2 \\
+	4^0 & -4^2 \\
+\end{pmatrix} = \begin{pmatrix} 1 & -16 \\ 1 & -9 \\ 1 & -4 \\ 1 & -1 \\ 1 & 0 \\ 1 & -1 \\ 1 & -4 \\ 1 & -9 \\ 1 & -16 \end{pmatrix},
+b = \begin{pmatrix} 0.3^2 \\ (-1.7)^2 \\ 2.7^2 \\ (-2.8)^2 \\ 3.1^2 \\ (-2.9)^2 \\ 2.5^2 \\ (-1.9)^2 \\ 0.1^2 \end{pmatrix} = \begin{pmatrix} 0.09\\
+    2.89\\
+    7.29\\
+    7.84\\
+    9.61\\
+    8.41\\
+    6.25\\
+    3.61\\
+    0.01\\ \end{pmatrix} \\
+&\Rightarrow& A\begin{pmatrix}\alpha \\ \beta\end{pmatrix} = b \Leftrightarrow  \begin{pmatrix}\alpha \\ \beta\end{pmatrix} = A\backslash b = \begin{pmatrix}  8.9240 \\ 0.5719\end{pmatrix}
+\end{eqnarray*}
+
+\item
+\begin{eqnarray*}
+\alpha &=& c^2 \\ \Rightarrow c^2 &=& 8.9240 \\
+\beta &=& \frac{c^2}{a^2} \\
+\Rightarrow a^2 &=& \frac {c^2} \beta = \frac \alpha \beta = 15.6032 \\
+\Rightarrow v^2 &=& c^2-\frac{c^2}{a^2}u^2  = 8.9240 - 0.5719u^2 \\
+\Rightarrow v &=&\pm\sqrt{8.9240 - 0.5719u^2}
+\end{eqnarray*}
+
+\item Frohe Ostern!
+
+\includegraphics{N2_S3_Aufg4d.png}
+
+Anmerkung: Da die Hauptachse der durch die Ansatzgleichung gegebenen Ellipse auf der $x$-Achse liegen muss, ist nicht sichergestellt, dass $\beta u^2 < \alpha$ gilt. Dadurch kann es für grosse $|u|$ zu komplexen $v$ kommen, deren realen Anteile zum Glück aber immer 0 sind. Im Plot sieht man das daran, dass die Werte $x = \pm 4$ nicht im Defnitionsbereich der Ausgleichskurven zu liegen scheinen. Dies könnte durch folgenden Ansatz gelöst werden: $\frac{(x - x_0)^2}{a^2} + \frac{(y -y_0)^2}{c^2} = 1$, was dann aber zu zwei zusätzlichen Parametern im Ausgleichsproblem mit entsprechend mühsameren Umformungen und Substitutionen führen würde.
+
+\end{enumerate}
+
+\end{document}
